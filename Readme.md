@@ -2,7 +2,7 @@
 
 Version 0.0.1
 
-**A framework for interaction with external data-sources.**
+**A framework for interaction with external data-sources.**:
 
 The AnyAPI Framework is a framework for interacting with external data-sources.
 It automatically detects server capability to determine the best / most efficient method to make the connection.
@@ -12,7 +12,8 @@ The AnyAPI Framework has the following methods:
 
 ##Main Methods
 
-**init**
+**init**:
+
 Creates an anyapi object and stores connection information
 
 ```php
@@ -39,7 +40,8 @@ anyapi->init( $type , $credentials , $headers );
 **$headers**: The required headers to be passed through for the query.
 (Can be omitted)
 
-**prepare**
+**prepare**:
+
 Prepares the query to be sent to the external data source.
 
 ```php
@@ -54,14 +56,16 @@ Can be formatted as:
 - JSON Encoded Array
 - Serialized Data String
 
-**exec**
+**exec**:
+
 Runs the query and stores the results in the anyapi object
 
 ```php
 anyapi->exec();
 ```
 
-**return**
+**return**:
+
 Returns the results of the query as either raw data or as parsed results.
 
 ```php
@@ -79,37 +83,59 @@ anyapi->return($format);
 
 ##Additional Methods
 
-**destory**
+**destory**:
+
 Destroys the data stored in the anyapi object, and then destorys the anyapi object itself.
 
 ```php
 anyapi->destory();
 ```
 
-**setOpts**
+**setOpts**:
+
 Set options for the anyapi object. Should be called before execution.
 
 ```php
 anyapi->setOpts($options);
 ```
 
-**options**
+**options**:
+
 Set options for the anyapi object. Should be called before execution.
 
 ```php
 anyapi->options;
 ```
 
-**debug**
+**debug**:
+
 Enables logging in order to debug issues.
 
 ```php
 anyapi->debug();
 ```
 
-**debugLog**
+**debugLog**:
+
 Returns an array with debug events.
 
 ```php
 anyapi->debugLog;
 ```
+
+##Static Methods
+
+**canRunQueryType**:
+
+Checks to see if the query type is supported. This is useful to check what your server and / or version of PHP supports.
+
+```php
+anyapi::canRunQueryType($type);
+```
+
+If the query type is supported, the function will return:
+```php
+TRUE
+```
+
+Otherwise, the function will return the name of the package / version of PHP required to run the query type.
