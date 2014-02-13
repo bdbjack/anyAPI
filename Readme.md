@@ -2,7 +2,7 @@
 
 Version 0.0.1
 
-**A framework for interaction with external data-sources.**:
+**A framework for interaction with external data-sources.**
 
 The AnyAPI Framework is a framework for interacting with external data-sources.
 It automatically detects server capability to determine the best / most efficient method to make the connection.
