@@ -9,32 +9,59 @@
 
  	public $debug = false;
  	private $debugLog = array();
- 	private static $defaults = array(
- 		'GET_PREFERENCE' => array(
- 				'http_get',
- 				'curl_init',
- 				'file_get_contents',
- 				'fopen',
- 			),
- 		'POST_PREFERENCE' => array(
- 				'http_post_data',
- 				'curl_init',
- 				'file_get_contents',
- 			),
+ 	private static $preference = array(
+ 		'TYPE_PREFERENCES' => array(
+ 			'GET_PREFERENCE' => array(
+ 					'http_get',
+ 					'HttpRequest',
+ 					'curl_init',
+ 					'file_get_contents',
+ 					'fopen',
+ 				),
+ 			'POST_PREFERENCE' => array(
+ 					'http_post_data',
+ 					'HttpRequest',
+ 					'curl_init',
+ 					'file_get_contents',
+ 				),
+ 			'PUT_PREFERENCE' => array(
+ 					'HttpRequest',
+ 					'curl_init',
+ 				),
+ 			'DELETE_PREFERENCE' => array(
+ 					'HttpRequest',
+ 					'curl_init',
+ 				),
+ 			'OPTIONS_PREFERENCE' => array(
+ 					'HttpRequest',
+ 				),
+ 			'MySQL_PREFERENCE' => array(
+ 					'PDO',
+ 					'mysqli_connect',
+ 					'mysql_connect',
+ 				),
+ 			'MySQLi_PREFERENCE' => array(
+ 					'PDO',
+ 					'mysqli_connect',
+ 					'mysql_connect',
+ 				),
+ 			'COOKIE_PREFERENCE' => array(
+ 					'HttpRequest',
+ 					'curl_init',
+ 				),
+ 			'JSON_PREFERENCE' => array(
+ 					'HttpRequest',
+ 					'curl_init',
+ 					'file_get_contents',
+ 					'fopen',
+ 				),
+ 			'WEBSOCKET_PREFERENCE' => array(),
+ 			'PDO_PREFERENCE' => array(
+ 					'PDO'
+ 				),
+ 		),
  	);
- 	public $options = array(
- 		'GET_PREFERENCE' => array(
- 				'http_get',
- 				'curl_init',
- 				'file_get_contents',
- 				'fopen',
- 			),
- 		'POST_PREFERENCE' => array(
- 				'http_post_data',
- 				'curl_init',
- 				'file_get_contents',
- 			),
- 	);
+ 	public $options = array();
  	protected $type = null;
  	protected $credentials = array();
  	protected $headers = null;
@@ -46,11 +73,11 @@
  	}
 
  	static function canRunQueryType($type) {
- 		if(isset(self::$defaults[ $type . '_PREFERENCE']) && count(self::$defaults[ $type . '_PREFERENCE']) > 0) {
+ 		if(isset(self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE']) && count(self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE']) > 0) {
  			$can_use = false;
- 				foreach (self::$defaults[ $type . '_PREFERENCE'] as $function) {
+ 				foreach (self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
  					if(!$can_use) {
- 						if(function_exists($function)) {
+ 						if(function_exists($function) || class_exists($function)) {
  							$can_use = true;
  						}
  					}
@@ -58,12 +85,12 @@
  			if($can_use) {
  				return true;
  			} else {
- 				$returnString = "Your server configuration does not have a function compatible with this Query Type" . "\r\n" .
- 				"Please consider enabling one of the following functions:"  . "\r\n";
- 				foreach (self::$defaults[ $type . '_PREFERENCE'] as $function) {
+ 				$returnString = "Your server configuration does not have a function/class compatible with query type " . $type . "\r\n" .
+ 				"Please consider enabling one of the following functions / classes:"  . "\r\n";
+ 				foreach (self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
  					$returnString .= "- " . $function  . "\r\n";
  				}
- 				$returnString .= "Once you have enabled the function, please check again.";
+ 				$returnString .= "Once you have enabled the function/class, please check again.";
  				return $returnString;
  			}
  		} else {

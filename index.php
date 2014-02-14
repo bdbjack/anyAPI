@@ -14,7 +14,6 @@ require_once('./AnyAPI.php');
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>AnyAPI Framework</h1>
@@ -40,7 +39,15 @@ require_once('./AnyAPI.php');
                             <div class="codeSection" id="canRunQueryType"><<!-- break -->?php 
 print_r(anyapi::canRunQueryType('POST'));
 print_r(anyapi::canRunQueryType('GET'));
+print_r(anyapi::canRunQueryType('PUT'));
+print_r(anyapi::canRunQueryType('DELETE'));
+print_r(anyapi::canRunQueryType('OPTIONS'));
 print_r(anyapi::canRunQueryType('MySQL'));
+print_r(anyapi::canRunQueryType('MySQLi'));
+print_r(anyapi::canRunQueryType('COOKIE'));
+print_r(anyapi::canRunQueryType('JSON'));
+print_r(anyapi::canRunQueryType('WEBSOCKET'));
+print_r(anyapi::canRunQueryType('PDO'));
 print_r(anyapi::canRunQueryType('Some Random Input'));
 ?<!-- break -->></div>
                         </div>
@@ -50,7 +57,23 @@ print_r(anyapi::canRunQueryType('Some Random Input'));
                             print("\r\n");
                             print_r(anyapi::canRunQueryType('GET'));
                             print("\r\n");
+                            print_r(anyapi::canRunQueryType('PUT'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('DELETE'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('OPTIONS'));
+                            print("\r\n");
                             print_r(anyapi::canRunQueryType('MySQL'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('MySQLi'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('COOKIE'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('JSON'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('WEBSOCKET'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('PDO'));
                             print("\r\n");
                             print_r(anyapi::canRunQueryType('Some Random Input'));
                             ?></div>
@@ -74,7 +97,6 @@ print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') )
                     </div>
                 </div>
             </div>
-        </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -101,10 +123,14 @@ print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') )
         </script>
         <style type="text/css" media="screen">
             .codeSection {
-                height: 150px;
+                height: 200px;
             }
             .codeResult {
-                height: 150px;
+                height: 200px;
+            }
+
+            .row {
+                border-bottom: solid 5px #000;
             }
         </style>
     </body>

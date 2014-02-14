@@ -104,7 +104,7 @@ anyapi->setOpts($options);
 Set options for the anyapi object. Should be called before execution.
 
 ```php
-anyapi->options;
+anyapi->$options;
 ```
 
 **debug**:
