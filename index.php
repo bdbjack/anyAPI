@@ -4,6 +4,8 @@
  * Shows an example of requesting data from a website. In this case we will use sample data.
  */
 error_reporting(E_ALL); ini_set('display_errors', '1');
+require_once('./ElephantIO/Client.php');
+use ElephantIO\Client as Elephant;
 require_once('./AnyAPI.php');
 ?><html>
     <head>
@@ -156,10 +158,10 @@ print_r($AnyAPI->returnCredentials());
         </script>
         <style type="text/css" media="screen">
             .codeSection {
-                height: 200px;
+                height: 500px;
             }
             .codeResult {
-                height: 200px;
+                height: 500px;
             }
 
             .row {

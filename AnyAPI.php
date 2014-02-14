@@ -33,13 +33,16 @@
  			'PUT_PREFERENCE' => array(
  					'HttpRequest',
  					'curl_init',
+ 					'stream_context_create',
  				),
  			'DELETE_PREFERENCE' => array(
  					'HttpRequest',
  					'curl_init',
+ 					'stream_context_create',
  				),
  			'OPTIONS_PREFERENCE' => array(
  					'HttpRequest',
+ 					'stream_context_create',
  				),
  			'MySQL_PREFERENCE' => array(
  					'PDO',
@@ -54,6 +57,7 @@
  			'COOKIE_PREFERENCE' => array(
  					'HttpRequest',
  					'curl_init',
+ 					'stream_context_create',
  				),
  			'JSON_PREFERENCE' => array(
  					'HttpRequest',
@@ -62,12 +66,36 @@
  					'fopen',
  				),
  			'WEBSOCKET_PREFERENCE' => array(
- 					'Elephant',
+ 					'ElephantIO\Client',
  				),
  			'PDO_PREFERENCE' => array(
  					'PDO'
  				),
  		),
+		'RETURN_PREFERENCES' => array(
+			'ARRAY_A' => array(
+					'phpinfo',
+				),
+			'JSON_A' => array(
+					'json_encode',
+				),
+			'XML' => array(
+					'SimpleXMLElement',
+				),
+			'CSV' => array(
+					'fputcsv',
+					'phpinfo',
+				),
+			'HTML_E' => array(
+					'htmlentities',
+				),
+			'URL_E' => array(
+					'urlencode',
+				),
+			'RAW' => array(
+					'phpinfo',
+				),
+		),
  	);
 
 	/**
