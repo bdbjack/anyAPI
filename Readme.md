@@ -74,12 +74,13 @@ anyapi->return($format);
 
 **$format**: The method the data should be formatted upon return. Can be:
 
-- ARRAY_A
-- JSON_A
-- XML
-- JSON
-- CSV
-- RAW
+- ARRAY_A (Associative Array)
+- JSON_A (JSON Encodeded Array)
+- XML (XML Sheet)
+- CSV (CSV File)
+- HTML_E (Raw Results encoded with HTML Entities)
+- URL_E (Raw Results encoded as URL)
+- RAW (Raw Data Return)
 
 ##Additional Methods
 
@@ -120,7 +121,7 @@ anyapi->debug();
 Returns an array with debug events.
 
 ```php
-anyapi->debugLog();
+anyapi->debugLog;
 ```
 
 ##Static Methods

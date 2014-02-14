@@ -61,7 +61,9 @@
  					'file_get_contents',
  					'fopen',
  				),
- 			'WEBSOCKET_PREFERENCE' => array(),
+ 			'WEBSOCKET_PREFERENCE' => array(
+ 					'Elephant',
+ 				),
  			'PDO_PREFERENCE' => array(
  					'PDO'
  				),
@@ -107,7 +109,12 @@
  	 */
  	
  	function __construct( $type , $credentials = array(), $headers = array() ) {
- 		$this->type = $type;
+ 		$canRun = self::canRunQueryType($type);
+ 		if( $canRun === true) {
+ 			$this->type = $type;
+ 		} else {
+ 			throw New Exception($canRun);
+ 		}
  		if( isset($credentials) && $credentials !== 'null') {
  			$this->credentials = $credentials;
  		}
