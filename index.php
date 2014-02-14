@@ -4,6 +4,7 @@
  * Shows an example of requesting data from a website. In this case we will use sample data.
  */
 error_reporting(E_ALL); ini_set('display_errors', '1');
+require_once('./AnyAPI.php');
 ?><html>
     <head>
         <title>AnyAPI Example Page</title>
@@ -13,10 +14,98 @@ error_reporting(E_ALL); ini_set('display_errors', '1');
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php 
-            require_once('./AnyAPI.php');
-        ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>AnyAPI Framework</h1>
+                    <p>Example Page</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3>Code</h3>
+                        </div>
+                        <div class="col-lg-6">
+                            <h3>Return</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="codeSection" id="canRunQueryType"><<!-- break -->?php 
+print_r(anyapi::canRunQueryType('POST'));
+print_r(anyapi::canRunQueryType('GET'));
+print_r(anyapi::canRunQueryType('MySQL'));
+print_r(anyapi::canRunQueryType('Some Random Input'));
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="canRunQueryTypeResult"><?php
+                            print_r(anyapi::canRunQueryType('POST'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('GET'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('MySQL'));
+                            print("\r\n");
+                            print_r(anyapi::canRunQueryType('Some Random Input'));
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="codeSection" id="init"><<!-- break -->?php 
+print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') ));
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="initResult"><?php
+                            print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') ));
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/mode-php.js" type="text/javascript" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/theme-chrome.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript">
+        var codeSections = {};
+        jQuery('.codeSection').each(function() {
+            var id = jQuery(this).attr('id');
+            codeSections['"' + id + '"'] = ace.edit(id);
+            codeSections['"' + id + '"'].getSession().setUseWorker(false);
+            codeSections['"' + id + '"'].setTheme("ace/theme/chrome");
+            codeSections['"' + id + '"'].getSession().setMode("ace/mode/php");
+            codeSections['"' + id + '"'].setReadOnly(true); 
+        });
+        jQuery('.codeResult').each(function() {
+            var id = jQuery(this).attr('id');
+            codeSections['"' + id + '"'] = ace.edit(id);
+            codeSections['"' + id + '"'].getSession().setUseWorker(false);
+            codeSections['"' + id + '"'].setTheme("ace/theme/chrome");
+            codeSections['"' + id + '"'].getSession().setMode("ace/mode/php");
+            codeSections['"' + id + '"'].setReadOnly(true); 
+        });
+        </script>
+        <style type="text/css" media="screen">
+            .codeSection {
+                height: 150px;
+            }
+            .codeResult {
+                height: 150px;
+            }
+        </style>
     </body>
 </html>

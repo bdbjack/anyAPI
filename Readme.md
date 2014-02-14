@@ -12,12 +12,12 @@ The AnyAPI Framework has the following methods:
 
 ##Main Methods
 
-**init**:
+**Initialization**:
 
 Creates an anyapi object and stores connection information
 
 ```php
-anyapi->init( $type , $credentials , $headers );
+$AnyAPI = new anyapi( $type , $credentials , $headers );
 ```
 
 **$type**: Type of Query. Can be:
@@ -120,7 +120,7 @@ anyapi->debug();
 Returns an array with debug events.
 
 ```php
-anyapi->debugLog;
+anyapi->debugLog();
 ```
 
 ##Static Methods
