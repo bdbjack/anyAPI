@@ -169,6 +169,23 @@ print_r($AnyAPI->returnCredentials());
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="codeSection" id="exec"><<!-- break -->?php 
+print_r($AnyAPI->exec());
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="execResult"><?php
+                            $AnyAPI->exec();
+                            print_r($AnyAPI);
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js" type="text/javascript" charset="utf-8"></script>

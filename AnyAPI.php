@@ -11,9 +11,11 @@
  	 * Private Variables
  	 */
  	private $debug = false;
+ 	private $options = array();
  	private $type = null;
  	private $credentials = null;
  	private $headers = null;
+ 	private $query = null;
  	private $rawReturn = null;
  	private static $preference = array(
  		'TYPE_PREFERENCES' => array(
@@ -111,9 +113,7 @@
  			$can_use = false;
  				foreach (self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
  					if(!$can_use) {
- 						if(function_exists($function) || class_exists($function)) {
- 							$can_use = true;
- 						}
+ 						$can_use = self::canRunHandler($function);
  					}
  				}
  			if($can_use) {
@@ -132,14 +132,20 @@
  		}
  	}
 
+ 	private static function canRunHandler($handler) {
+ 		if(function_exists($handler) || class_exists($handler)) {
+ 			return true;
+ 		} else {
+ 			return false;
+ 		}
+ 	}
+
  	public static function canReturnType( $type ) {
  		if(isset(self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE']) && count(self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE']) > 0) {
  			$can_use = false;
  				foreach (self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
  					if(!$can_use) {
- 						if(function_exists($function) || class_exists($function)) {
- 							$can_use = true;
- 						}
+ 						$can_use = self::canRunHandler($function);
  					}
  				}
  			if($can_use) {
@@ -162,6 +168,7 @@
  	 * Object Methods
  	 */
  	
+ 	// Set up the Object //
  	function __construct( $type , $credentials = array(), $headers = array() ) {
  		$canRun = self::canRunQueryType($type);
  		if( $canRun === true) {
@@ -177,18 +184,69 @@
  		}
  	}
 
+ 	// Enable Debug //
  	public function debug() {
  		$this->debug = true;
  		return $this->debug;
  	}
 
-
+ 	// Return Credentials if Debug is enabled //
  	public function returnCredentials() {
  		if($this->debug) {
  			return $this->credentials;
+ 		} else {
+ 			throw New Exeception('This method can only be run when debugging is enabled.');
  		}
  	}
 
+ 	// Prepares the Query //
+ 	public function prepare($query) {
+ 		if($this->debug) {
+ 			array_push($this->debugLog, 'Prepared Query');
+ 		}
+ 		// First check what type of data we're dealing with
+ 		$data = null;
+ 		if(is_object(json_decode($data))) {
+ 			$data = json_decode($query,true);
+ 		}
+ 		else if(@unserialize($query) !== false) {
+ 			$data = unserialize($query);
+ 		} 
+ 		else if(is_array($query)) {
+ 			$data = $query;
+ 		} 
+ 		else {
+ 			throw New Exception('AnyAPI was not able to recognize the query type.');
+ 		}
+ 	}
+
+ 	// Execute the query and pull the results back to the rawReturn variable //
+ 	public function exec() {
+ 		if($this->debug) {
+ 			array_push($this->debugLog, 'Execution Called - Looking for Handler');
+ 		}
+ 		$handlerFound = false;
+ 		foreach (self::$preference['TYPE_PREFERENCES'][$this->type . '_PREFERENCE'] as $handler) {
+ 			if($this->debug) {
+	 			array_push($this->debugLog, 'Prepared Query');
+	 		}
+ 			if(self::canRunHandler($handler)) {
+ 				$handlerName = str_replace('\\','',$handler) . '_handler';
+ 				$this->$handlerName();
+ 				return;
+ 			}
+ 		}
+ 		if(!$handlerFound) {
+ 			throw New Exception('AnyAPI Error: The Expected handlers for Query Type ' . $this->type . ' could not be found.');
+ 		}
+ 	}
+
+ 	/**
+ 	 * Execution Handlers
+ 	 */
+ 	private function file_get_contents_handler() {
+ 		
+ 	}
 
  } // End of anyapi Class
 ?>
