@@ -7,8 +7,14 @@
 
  class anyapi {
 
- 	public $debug = false;
- 	private $debugLog = array();
+ 	/**
+ 	 * Private Variables
+ 	 */
+ 	private $debug = false;
+ 	private $type = null;
+ 	private $credentials = null;
+ 	private $headers = null;
+ 	private $rawReturn = null;
  	private static $preference = array(
  		'TYPE_PREFERENCES' => array(
  			'GET_PREFERENCE' => array(
@@ -61,18 +67,16 @@
  				),
  		),
  	);
- 	public $options = array();
- 	protected $type = null;
- 	protected $credentials = array();
- 	protected $headers = null;
- 	protected $rawreturn = null;
 
+	/**
+	 * Public Variables
+	 */
+	public $debugLog = array();
 
- 	function __construct( $type , $credentials = array(), $headers = null ) {
- 		
- 	}
-
- 	static function canRunQueryType($type) {
+ 	/**
+ 	 * Static Methods
+ 	 */
+ 	public static function canRunQueryType( $type ) {
  		if(isset(self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE']) && count(self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE']) > 0) {
  			$can_use = false;
  				foreach (self::$preference['TYPE_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
@@ -98,9 +102,32 @@
  		}
  	}
 
- 	public function debugLog() {
- 		return $this->$debugLog;
+ 	/**
+ 	 * Object Methods
+ 	 */
+ 	
+ 	function __construct( $type , $credentials = array(), $headers = array() ) {
+ 		$this->type = $type;
+ 		if( isset($credentials) && $credentials !== 'null') {
+ 			$this->credentials = $credentials;
+ 		}
+ 		if( isset($headers) && $headers !== 'null') {
+ 			$this->headers = $headers;
+ 		}
  	}
+
+ 	public function debug() {
+ 		$this->debug = true;
+ 		return $this->debug;
+ 	}
+
+
+ 	public function returnCredentials() {
+ 		if($this->debug) {
+ 			return $this->credentials;
+ 		}
+ 	}
+
 
  } // End of anyapi Class
 ?>

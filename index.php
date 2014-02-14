@@ -91,7 +91,40 @@ print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') )
                         </div>
                         <div class="col-lg-6">
                             <div class="codeResult" id="initResult"><?php
-                            print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') ));
+                            print_r($AnyAPI = new anyapi( 'GET' , array('location' => 'http://www.google.com/') , array() ));
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="codeSection" id="debug"><<!-- break -->?php 
+print_r($AnyAPI->debug());
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="debugResult"><?php
+                            $AnyAPI->debug();
+                            print_r($AnyAPI);
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="codeSection" id="returnCredentials"><<!-- break -->?php 
+print_r($AnyAPI->returnCredentials());
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="returnCredentialsResults"><?php
+                            print_r($AnyAPI->returnCredentials());
                             ?></div>
                         </div>
                     </div>
