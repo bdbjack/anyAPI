@@ -87,6 +87,43 @@ print_r(anyapi::canRunQueryType('Some Random Input'));
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-6">
+                            <div class="codeSection" id="canReturnType"><<!-- break -->?php 
+print_r(anyapi::canReturnType('ARRAY_A'));
+print_r(anyapi::canReturnType('JSON_A'));
+print_r(anyapi::canReturnType('XML'));
+print_r(anyapi::canReturnType('CSV'));
+print_r(anyapi::canReturnType('HTML_E'));
+print_r(anyapi::canReturnType('URL_E'));
+print_r(anyapi::canReturnType('RAW'));
+print_r(anyapi::canReturnType('Some Random Input'));
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="canReturnTypeResult"><?php
+                            print_r(anyapi::canReturnType('ARRAY_A'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('JSON_A'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('XML'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('CSV'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('HTML_E'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('URL_E'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('RAW'));
+                            print("\r\n");
+                            print_r(anyapi::canReturnType('Some Random Input'));
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
                             <div class="codeSection" id="init"><<!-- break -->?php 
 print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') ));
 ?<!-- break -->></div>

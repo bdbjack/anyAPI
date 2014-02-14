@@ -140,3 +140,18 @@ TRUE
 ```
 
 Otherwise, the function will return the name of the package / version of PHP required to run the query type.
+
+**canReturnType**:
+
+Checks to see if the return type is supported. This is useful to check what your server and / or version of PHP supports.
+
+```php
+anyapi::canReturnType($type);
+```
+
+If the query type is supported, the function will return:
+```php
+TRUE
+```
+
+Otherwise, the function will return the name of the package / version of PHP required to run the query type.

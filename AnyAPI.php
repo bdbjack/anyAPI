@@ -73,26 +73,26 @@
  				),
  		),
 		'RETURN_PREFERENCES' => array(
-			'ARRAY_A' => array(
+			'ARRAY_A_PREFERENCE' => array(
 					'phpinfo',
 				),
-			'JSON_A' => array(
+			'JSON_A_PREFERENCE' => array(
 					'json_encode',
 				),
-			'XML' => array(
+			'XML_PREFERENCE' => array(
 					'SimpleXMLElement',
 				),
-			'CSV' => array(
+			'CSV_PREFERENCE' => array(
 					'fputcsv',
 					'phpinfo',
 				),
-			'HTML_E' => array(
+			'HTML_E_PREFERENCE' => array(
 					'htmlentities',
 				),
-			'URL_E' => array(
+			'URL_E_PREFERENCE' => array(
 					'urlencode',
 				),
-			'RAW' => array(
+			'RAW_PREFERENCE' => array(
 					'phpinfo',
 				),
 		),
@@ -129,6 +129,32 @@
  			}
  		} else {
  			return 'AnyAPI does not know how to run query type "' . $type .'".';
+ 		}
+ 	}
+
+ 	public static function canReturnType( $type ) {
+ 		if(isset(self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE']) && count(self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE']) > 0) {
+ 			$can_use = false;
+ 				foreach (self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
+ 					if(!$can_use) {
+ 						if(function_exists($function) || class_exists($function)) {
+ 							$can_use = true;
+ 						}
+ 					}
+ 				}
+ 			if($can_use) {
+ 				return true;
+ 			} else {
+ 				$returnString = "Your server configuration does not have a function/class compatible with return type " . $type . "\r\n" .
+ 				"Please consider enabling one of the following functions / classes:"  . "\r\n";
+ 				foreach (self::$preference['RETURN_PREFERENCES'][ $type . '_PREFERENCE'] as $function) {
+ 					$returnString .= "- " . $function  . "\r\n";
+ 				}
+ 				$returnString .= "Once you have enabled the function/class, please check again.";
+ 				return $returnString;
+ 			}
+ 		} else {
+ 			return 'AnyAPI does not know how to run return type "' . $type .'".';
  		}
  	}
 
