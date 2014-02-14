@@ -45,7 +45,7 @@ $AnyAPI = new anyapi( $type , $credentials , $headers );
 Prepares the query to be sent to the external data source.
 
 ```php
-anyapi->prepare($query);
+$AnyAPI->prepare($query);
 ```
 
 **$query**: Query to be sent to the external source.
@@ -61,7 +61,7 @@ Can be formatted as:
 Runs the query and stores the results in the anyapi object
 
 ```php
-anyapi->exec();
+$AnyAPI->exec();
 ```
 
 **return**:
@@ -69,7 +69,7 @@ anyapi->exec();
 Returns the results of the query as either raw data or as parsed results.
 
 ```php
-anyapi->return($format);
+$AnyAPI->return($format);
 ```
 
 **$format**: The method the data should be formatted upon return. Can be:
@@ -89,7 +89,7 @@ anyapi->return($format);
 Destroys the data stored in the anyapi object, and then destorys the anyapi object itself.
 
 ```php
-anyapi->destory();
+$AnyAPI->destory();
 ```
 
 **setOpts**:
@@ -97,7 +97,7 @@ anyapi->destory();
 Set options for the anyapi object. Should be called before execution.
 
 ```php
-anyapi->setOpts($options);
+$AnyAPI->setOpts($options);
 ```
 
 **options**:
@@ -105,7 +105,7 @@ anyapi->setOpts($options);
 Set options for the anyapi object. Should be called before execution.
 
 ```php
-anyapi->$options;
+$AnyAPI->$options;
 ```
 
 **debug**:
@@ -113,7 +113,7 @@ anyapi->$options;
 Enables logging in order to debug issues.
 
 ```php
-anyapi->debug();
+$AnyAPI->debug();
 ```
 
 **debugLog**:
@@ -121,7 +121,7 @@ anyapi->debug();
 Returns an array with debug events.
 
 ```php
-anyapi->debugLog;
+$AnyAPI->debugLog;
 ```
 
 ##Static Methods
