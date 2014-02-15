@@ -64,12 +64,12 @@ Runs the query and stores the results in the anyapi object
 $AnyAPI->exec();
 ```
 
-**return**:
+**results**:
 
 Returns the results of the query as either raw data or as parsed results.
 
 ```php
-$AnyAPI->return($format);
+$AnyAPI->results($format);
 ```
 
 **$format**: The method the data should be formatted upon return. Can be:

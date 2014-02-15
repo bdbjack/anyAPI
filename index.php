@@ -140,6 +140,30 @@ print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') )
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-6">
+                            <div class="codeSection" id="prepare"><<!-- break -->?php 
+$query_vars = array(
+    'gws_rd' => 'cr',
+    'ei' => 'S17_UqwQiMnjBMXVgOgI#q=test+search',
+);
+print_r($AnyAPI->prepare($query_vars));
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="prepareResult"><?php
+                            $query_vars = array(
+                                'gws_rd' => 'cr',
+                                'ei' => 'S17_UqwQiMnjBMXVgOgI#q=test+search',
+                            );
+                            print_r($AnyAPI->prepare($query_vars));
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
                             <div class="codeSection" id="debug"><<!-- break -->?php 
 print_r($AnyAPI->debug());
 ?<!-- break -->></div>
@@ -179,8 +203,23 @@ print_r($AnyAPI->exec());
                         </div>
                         <div class="col-lg-6">
                             <div class="codeResult" id="execResult"><?php
-                            $AnyAPI->exec();
-                            print_r($AnyAPI);
+                            print_r($AnyAPI->exec());
+                            ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="codeSection" id="results"><<!-- break -->?php 
+print_r($AnyAPI->results('HTML_E'));
+?<!-- break -->></div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="codeResult" id="resultsResult"><?php
+                            print_r($AnyAPI->results('HTML_E'));
                             ?></div>
                         </div>
                     </div>
