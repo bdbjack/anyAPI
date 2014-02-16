@@ -16,6 +16,7 @@ require_once('./AnyAPI.php');
         <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <h1>AnyAPI Framework</h1>
@@ -38,46 +39,13 @@ require_once('./AnyAPI.php');
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="codeSection" id="canRunQueryType"><<!-- break -->?php 
-print_r(anyapi::canRunQueryType('POST'));
-print_r(anyapi::canRunQueryType('GET'));
-print_r(anyapi::canRunQueryType('PUT'));
-print_r(anyapi::canRunQueryType('DELETE'));
-print_r(anyapi::canRunQueryType('OPTIONS'));
-print_r(anyapi::canRunQueryType('MySQL'));
-print_r(anyapi::canRunQueryType('MySQLi'));
-print_r(anyapi::canRunQueryType('COOKIE'));
-print_r(anyapi::canRunQueryType('JSON'));
-print_r(anyapi::canRunQueryType('WEBSOCKET'));
-print_r(anyapi::canRunQueryType('PDO'));
-print_r(anyapi::canRunQueryType('Some Random Input'));
+                            <div class="codeSection" id="checkRequirements"><<!-- break -->?php 
+print_r(anyapi::checkRequirements());
 ?<!-- break -->></div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="codeResult" id="canRunQueryTypeResult"><?php
-                            print_r(anyapi::canRunQueryType('POST'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('GET'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('PUT'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('DELETE'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('OPTIONS'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('MySQL'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('MySQLi'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('COOKIE'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('JSON'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('WEBSOCKET'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('PDO'));
-                            print("\r\n");
-                            print_r(anyapi::canRunQueryType('Some Random Input'));
+                            <div class="codeResult" id="checkRequirementsResult"><?php
+                            print_r(anyapi::checkRequirements());
                             ?></div>
                         </div>
                     </div>
@@ -87,144 +55,19 @@ print_r(anyapi::canRunQueryType('Some Random Input'));
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="codeSection" id="canReturnType"><<!-- break -->?php 
-print_r(anyapi::canReturnType('ARRAY_A'));
-print_r(anyapi::canReturnType('JSON_A'));
-print_r(anyapi::canReturnType('XML'));
-print_r(anyapi::canReturnType('CSV'));
-print_r(anyapi::canReturnType('HTML_E'));
-print_r(anyapi::canReturnType('URL_E'));
-print_r(anyapi::canReturnType('RAW'));
-print_r(anyapi::canReturnType('Some Random Input'));
+                            <div class="codeSection" id="installInfo" style="height:500px;"><<!-- break -->?php 
+print_r(anyapi::installInfo());
 ?<!-- break -->></div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="codeResult" id="canReturnTypeResult"><?php
-                            print_r(anyapi::canReturnType('ARRAY_A'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('JSON_A'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('XML'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('CSV'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('HTML_E'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('URL_E'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('RAW'));
-                            print("\r\n");
-                            print_r(anyapi::canReturnType('Some Random Input'));
+                            <div class="codeResult" id="installInfoResult" style="height:500px;"><?php
+                            print_r(anyapi::installInfo());
                             ?></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="codeSection" id="init"><<!-- break -->?php 
-print_r($AnyAPI = new anyapi( 'GET' , array('url' => 'http://www.google.com/') ));
-?<!-- break -->></div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="codeResult" id="initResult"><?php
-                            print_r($AnyAPI = new anyapi( 'GET' , array('location' => 'http://www.google.com/') , array() ));
-                            ?></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="codeSection" id="prepare"><<!-- break -->?php 
-$query_vars = array(
-    'gws_rd' => 'cr',
-    'ei' => 'S17_UqwQiMnjBMXVgOgI#q=test+search',
-);
-print_r($AnyAPI->prepare($query_vars));
-?<!-- break -->></div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="codeResult" id="prepareResult"><?php
-                            $query_vars = array(
-                                'gws_rd' => 'cr',
-                                'ei' => 'S17_UqwQiMnjBMXVgOgI#q=test+search',
-                            );
-                            print_r($AnyAPI->prepare($query_vars));
-                            ?></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="codeSection" id="debug"><<!-- break -->?php 
-print_r($AnyAPI->debug());
-?<!-- break -->></div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="codeResult" id="debugResult"><?php
-                            $AnyAPI->debug();
-                            print_r($AnyAPI);
-                            ?></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="codeSection" id="returnCredentials"><<!-- break -->?php 
-print_r($AnyAPI->returnCredentials());
-?<!-- break -->></div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="codeResult" id="returnCredentialsResults"><?php
-                            print_r($AnyAPI->returnCredentials());
-                            ?></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="codeSection" id="exec"><<!-- break -->?php 
-print_r($AnyAPI->exec());
-?<!-- break -->></div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="codeResult" id="execResult"><?php
-                            print_r($AnyAPI->exec());
-                            ?></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="codeSection" id="results"><<!-- break -->?php 
-print_r($AnyAPI->results('HTML_E'));
-?<!-- break -->></div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="codeResult" id="resultsResult"><?php
-                            print_r($AnyAPI->results('HTML_E'));
-                            ?></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -251,10 +94,10 @@ print_r($AnyAPI->results('HTML_E'));
         </script>
         <style type="text/css" media="screen">
             .codeSection {
-                height: 500px;
+                min-height: 100px;
             }
             .codeResult {
-                height: 500px;
+                min-height: 100px;
             }
 
             .row {
