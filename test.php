@@ -11,8 +11,16 @@ $AnyAPI->setOptions(array('url' => 'http://www.maxmind.com/geoip/v2.0/city_isp_o
 $AnyAPI->execute();
 
 print('<pre>');
-print_r($AnyAPI->returnDebug());
+print_r($AnyAPI->results('xml'));
 print('</pre>');
+
+print('<pre>');
+print_r($AnyAPI->results());
+print('</pre>');
+
+//print('<pre>');
+//print_r($AnyAPI->returnDebug());
+//print('</pre>');
 ?>
 
 

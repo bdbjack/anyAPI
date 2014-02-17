@@ -13,17 +13,17 @@
  	/**
  	 * Query Settings
  	 */
- 	private $queryOptions = array(
+ 	protected $queryOptions = array(
  		'queryTimeout' => 15, 		// Amount of time in seconds to allow the query to run before "timing-out"
  		'connectTimeout' => 3,		// Amount of time in seconds to allow to connect to external source before "timing-out"
  		'dnsTimeout' => 1,			// Amount of time in seconds to allow DNS Resolution before "timing-out"
  	);
- 	private $options = array();
- 	private $queryType = NULL;
- 	private $queryData = NULL;
- 	private $queryDataType = NULL;
- 	private $resultsRaw = NULL;
- 	private $resultType = NULL;
+ 	protected $options = array();
+ 	protected $queryType = NULL;
+ 	protected $queryData = NULL;
+ 	protected $queryDataType = NULL;
+ 	protected $resultsRaw = NULL;
+ 	protected $resultType = NULL;
 
  	/**
  	 * Query Methods
@@ -51,17 +51,16 @@
  							$this->addDebugMessage('Data Type set to ' . $dataType);
  							$this->queryDataType = $dataType;
  						} else {
- 							$this->addDebugMessage('Unable to parse Data Type ' . $dataType);
- 							throw new Exception('AnyAPI Error: Unable to parse Data Type ' . $dataType, 1);
+ 							return $this->exception('Unable to parse Data Type ' . $dataType);
  						}
+ 						$this->addDebugMessage('Adding Query Data');
+ 						$this->queryData = $data;
  					}
  				} else {
- 					$this->addDebugMessage('Query Options are an array or an object.');
- 					throw new Exception('Query Options are an array or an object.', 1);
+ 					return $this->exception('Query Options are an array or an object.');
  				}
  			} else {
- 				$this->addDebugMessage('Cannot Run Query Type ' . $type . '. Returning Error.');
- 				throw new Exception('AnyAPI Error: Cannot Run Query Type ' . $type . '.', 1);
+ 				return $this->exception('Cannot Run Query Type ' . $type . '. Returning Error.');
  			}
  	}
 
@@ -77,8 +76,7 @@
  			return $this->options;
  		}
  		else {
- 			$this->addDebugMessage('Query Options are an array or an object.');
- 			throw new Exception('Query Options are an array or an object.', 1);
+ 			return $this->exception('Query Options are an array or an object.');
  		}
  	}
 
@@ -88,15 +86,13 @@
  		if($overwrite === FALSE) {
  			$this->addDebugMessage('Checking that AnyAPI is not overwriting data.');
  			if($this->resultsRaw !== NULL) {
- 				$this->addDebugMessage('Cannot Continue. No Permission to overwrite existing data.');
- 				throw new Exception("Cannot Continue. No Permission to overwrite existing data.", 1);
+ 				return $this->exception('Cannot Continue. No Permission to overwrite existing data.');
  			}
  		}
  		if($params !== NULL) {
  			$this->addDebugMessage('Checking that params are being passed as an array.');
  			if(!is_array($params)) {
- 				$this->addDebugMessage('Cannot Continue. Params are not in a valid format.');
- 				throw new Exception("Cannot Continue. Params are not in a valid format.", 1);
+ 				return $this->exception('Cannot Continue. Params are not in a valid format.');
  			}
  			$this->addDebugMessage('Adding Params');
  			foreach ($params as $key => $value) {
@@ -106,12 +102,23 @@
  		$handler = self::canRunQueryType($this->queryType);
  		$this->addDebugMessage('Running Handler: ' . $handler);
  		$this->$handler();
-
- 	// Alias to Execute
- 	function exec( $params = NULL , $overwrite = FALSE ) {
- 		$this->execute( $params , $overwrite );
  	}
 
+ 	// Return the Results of the Query
+ 	function results( $returnType = 'array', $parseAs = NULL) {
+ 		$this->addDebugMessage('Retrieve Request Initiated.');
+ 		if(!is_null($parseAs)) {
+ 			if(!self::canParseFormat($parseAs)) {
+ 				return $this->exception('Cannot Parse Returned Data as ' . $parseAs);
+ 			}
+ 		} else {
+ 			$parseAs = $this->resultType;
+ 		}
+ 		if(!self::canParseFormat($returnType)) {
+ 			return $this->exception('Cannot Return Data as ' . $returnType);
+ 		}
+ 		$parsedData = $this->runParser($parseAs,$this->resultsRaw);
+ 		return $this->runParser($returnType,$parsedData);
  	}
  } // End of anyapi Class
 ?>

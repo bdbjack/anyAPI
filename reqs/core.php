@@ -12,8 +12,8 @@
  	 */
  	const anyapiVersion = '0.0.2-dev';	// Define AnyAPI Version
  	const minPHPVersion = '5.3';		// Minimum Version of PHP Required
- 	private $debug = false;							// Debug Status	
- 	private $debugLog = array();					// Debug Log
+ 	protected $debug = false;			// Debug Status	
+ 	protected $debugLog = array();		// Debug Log
 
  	// Methods for Requirement Checking //
  	public static function installInfo() {
@@ -208,6 +208,11 @@
  		}
  	}
 
+ 	public function exception($message) {
+ 		$this->addDebugMessage($message);
+		return "AnyAPI Error: " . $message;
+ 	}
+
  	/**
  	 * Data Parsing
  	 */
@@ -260,16 +265,16 @@
  			throw new Exception("AnyAPI Error: Unknown Data Type", 1);
  		} else {
  			if($anyAPIType === 'string') {
- 				if(checkIfJSON($data)) {
+ 				if(self::checkIfJSON($data)) {
  					return 'json';
  				}
- 				elseif(checkIfBase64($data)) {
+ 				elseif(self::checkIfBase64($data)) {
  					return 'base64';
  				}
- 				elseif(checkIfXML($data)) {
+ 				elseif(self::checkIfXML($data)) {
  					return 'xml';
  				}
- 				elseif(checkIfURL($data)) {
+ 				elseif(self::checkIfURL($data)) {
  					return 'url';
  				}
  				else {
@@ -327,6 +332,24 @@
  				return false;
  			}
  		}
+ 	}
+
+ 	/**
+ 	 * Helper Functions
+ 	 */
+ 	protected function arraytoxml($xmlObj,$data) {
+ 		foreach ($data as $key => $value) {
+ 			if(is_array($value)) {
+ 				if(is_numeric($key)) {
+ 					$key = 'item_' . $key;
+ 				}
+ 				$subnode = $xmlObj->addChild("$key");
+ 				$this->arraytoxml($subnode,$value);
+ 			} else {
+ 				$xmlObj->addChild("$key","$value");
+ 			}
+ 		}
+ 		return $xmlObj;
  	}
 
  } // End of anyapiCore Class
