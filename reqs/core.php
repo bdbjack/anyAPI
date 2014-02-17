@@ -154,7 +154,7 @@
  				break;
 
  			case 'xml':
- 				if(class_exists('SimpleXMLElement')) {
+ 				if(class_exists('SimpleXMLElement') && function_exists('json_encode') && function_exists('json_decode')) {
  					return true;
  				}
  				break;
