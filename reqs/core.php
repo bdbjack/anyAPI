@@ -158,7 +158,7 @@
  				break;
 
  			case 'xml':
- 				if(class_exists('SimpleXMLElement') && function_exists('json_encode') && function_exists('json_decode')) {
+ 				if(class_exists('SimpleXMLElement')) {
  					return true;
  				}
  				break;
@@ -361,6 +361,12 @@
  		return $xmlObj;
  	}
 
+ 	protected function xml2array ( $xmlObject, $out = array () ) {
+	    foreach ( (array) $xmlObject as $index => $node )
+	        $out[$index] = ( is_object ( $node ) ) ? $this->xml2array ( $node ) : $node;
+	    return $out;
+	}
+	
  	protected function arraytourl($data, $isSub = false) {
  		$return = '';
 		foreach ($data as $key => $value) {

@@ -107,7 +107,7 @@
  	// Return the Results of the Query
  	function results( $returnType = 'array', $parseAs = NULL) {
  		$this->addDebugMessage('Retrieve Request Initiated.');
- 		if(is_null($this->resultsRaw) || strlen($this->resultsRaw) == 0) {
+ 		if(is_null($this->resultsRaw)) {
  			return $this->exception('No Data to Return');
  		}
  		if(!is_null($parseAs)) {

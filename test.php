@@ -4,17 +4,17 @@ require_once('./ElephantIO/Client.php');
 use ElephantIO\Client as Elephant;
 require_once('./AnyAPI.php');
 
-$AnyAPI = new anyapi( 'POST' , array('url' => 'http://127.0.0.1/postTest.php' ) , array('demo' => true ) , 'array' , TRUE );
+$AnyAPI = new anyapi( 'POST' , array('url' => 'http://bdbservice.com/centipede/apiWrap.php?integration=bdb_eu' ) , array('demo' => true ) , 'array' , TRUE );
 
 $AnyAPI->execute();
 
 print('<pre>');
-print_r($AnyAPI->results('raw'));
+print_r($AnyAPI->results('array'));
 print('</pre>');
 
-#print('<pre>');
-#print_r($AnyAPI);
-#print('</pre>');
+print('<pre>');
+print_r($AnyAPI);
+print('</pre>');
 
 #print('<pre>');
 #print_r($AnyAPI->returnDebug());

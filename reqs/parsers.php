@@ -38,8 +38,9 @@ abstract class anyapiParsers extends anyapiHandlers {
 
 	protected function xmlParser($data,$dataType) {
 		$this->addDebugMessage('Running XML Parser.');
-		if(self::checkIfXML($data)) {
-			return json_decode(json_encode($data),true);
+		if($dataType == 'xml') {
+			$xml = new SimpleXMLElement($data);
+			return $this->xml2array($xml);
 		} else {
 			$returnData = new SimpleXMLElement("<?xml version=\"1.0\"?><return></return>");
 			$returnedXML = $this->arraytoxml($returnData,$data);

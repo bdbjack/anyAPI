@@ -78,5 +78,53 @@ abstract class anyapiHandlers extends anyapiCore {
 		}
 	}
 
+	/**
+	 * PDO Handler
+	 */
+	protected function PDOHandler() {
+		$this->addDebugMessage('PDO handler activated. Running validation.');
+		$req_keys = array(
+			'host',
+			'user',
+			'password',
+			'database',
+			'query',
+		);
+		foreach ($req_keys as $key) {
+			if(!isset($this->options[$key]) || is_null($this->options[$key]) || strlen($this->options[$key]) == 0) {
+				return $this->exception('Required Option ' . $key . ' is missing or not formatted correctly');
+			}
+		}
+		if(!isset($this->options['port']) || is_null($this->options['port']) || strlen($this->options['port']) == 0) {
+			$this->options['port'] = 3306;
+		}
+		$this->addDebugMessage('Creating Database Object');
+		try {
+			$db = new PDO("mysql:host=" . $this->options['host'] . ";dbname=" . $this->options['database'] . ";port="  .$this->options['port'] ,$this->options['user'],$this->options['password']);
+			$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+			$db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+		}
+		catch (Exception $e) {
+			return $this->exception($e->getMessage());
+		}
+		$this->addDebugMessage('Preparing PDO Statement');
+		$statement = $db->prepare($this->options['query']);
+		$this->addDebugMessage('Preparing Query');
+		$query = $this->runParser( $this->queryDataType , $this->queryData );
+		$this->addDebugMessage('Executing Query');
+		try {
+			$statement->execute($query);
+		}
+		catch (Exception $e) {
+			return $this->exception($e->getMessage());
+		}
+		$this->addDebugMessage('Returning Data');
+		$results = $statement->fetchAll();
+		$this->addDebugMessage('Setting Data Type');
+		$this->resultType = self::dataType($results);
+		$this->addDebugMessage('Posting Data to Object Variable');
+		$this->resultsRaw = $results;
+	}
+
 } // end of anyapiHandlers class
 ?>
