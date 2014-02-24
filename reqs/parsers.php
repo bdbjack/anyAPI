@@ -7,10 +7,10 @@ abstract class anyapiParsers extends anyapiHandlers {
 		if(is_null($data)) {
 			$data = $this->queryData;
 		}
-		return $this->$parseFunction($data);
+		return $this->$parseFunction($data, $dataType);
 	}
 
-	protected function arrayParser($data) {
+	protected function arrayParser($data,$dataType) {
 		$this->addDebugMessage('Running Array Parser');
 		$returnArray = array();
 		foreach ($data as $key => $value) {
@@ -19,12 +19,12 @@ abstract class anyapiParsers extends anyapiHandlers {
 		return $returnArray;
 	}
 
-	protected function objectParser($data) {
+	protected function objectParser($data,$dataType) {
 		$this->addDebugMessage('Found Object Parser. Running as Array Parser');
 		$this->arrayParser( $data );
 	}
 
-	protected function jsonParser($data) {
+	protected function jsonParser($data,$dataType) {
 		$this->addDebugMessage('Running JSON Parser.');
 		if(self::checkIfJSON($data)) {
 			return json_decode($data,true);
@@ -33,7 +33,7 @@ abstract class anyapiParsers extends anyapiHandlers {
 		}
 	}
 
-	protected function xmlParser($data) {
+	protected function xmlParser($data,$dataType) {
 		$this->addDebugMessage('Running XML Parser.');
 		if(self::checkIfXML($data)) {
 			return json_decode(json_encode($data),true);
@@ -41,6 +41,28 @@ abstract class anyapiParsers extends anyapiHandlers {
 			$returnData = new SimpleXMLElement("<?xml version=\"1.0\"?><return></return>");
 			$returnedXML = $this->arraytoxml($returnData,$data);
 			return $returnedXML->asXML();
+		}
+	}
+
+	protected function csvParser($data,$dataType) {
+		$this->addDebugMessage('Running CSV Parser.');
+		if(!is_array($data)) {
+			return str_getcsv($data);
+		} else {
+			$multidimensional = false;
+			foreach ($data as $key => $value) {
+				if(is_array($value)) {
+					$multidimensional = true;
+				}
+			}
+			if($multidimensional) {
+				return $this->exception('Cannot parse multi-dimensional array as CSV.');
+			} else {
+				$output = fopen("php://output",'w');
+				fputcsv($output,$data);
+				fclose($output);
+				return $output;
+			}
 		}
 	}
 } // end of anyapiParsers class

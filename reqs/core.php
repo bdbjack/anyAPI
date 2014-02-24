@@ -290,8 +290,9 @@
  		if(!function_exists('json_decode')) {
  			throw new Exception("AnyAPI Error: AnyAPI Requires package php5-json in-order to work with JSON strings.", 1);
  		} else {
- 			json_decode($string);
- 			return (json_last_error() == JSON_ERROR_NONE);
+ 			return ((is_string($string) && 
+         (is_object(json_decode($string)) || 
+         is_array(json_decode($string))))) ? true : false;
  		}
  	}
 
