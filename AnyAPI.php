@@ -30,6 +30,7 @@
  	 */
  	// Object Initialization
  	function __construct( $type , $options = NULL , $data = NULL , $dataType = NULL , $debug = FALSE) {
+ 			set_error_handler(array($this, 'errorHandler'), E_ALL);
  			$this->setDebug($debug);
  			$this->addDebugMessage('Started Creation of AnyAPI Object');
  			$this->addDebugMessage('Checking that AnyAPI can run Query Type ' . $type);

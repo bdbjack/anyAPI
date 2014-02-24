@@ -68,9 +68,6 @@
  				elseif(function_exists('file_get_contents')) {
  					$return = 'fileGetContentsHandler';
  				}
- 				elseif(function_exists('fopen')) {
- 					$return = 'fopenHandler';
- 				}
  				break;
  			
  			case 'POST':
@@ -98,12 +95,6 @@
  			case 'MySQL':
  				if(class_exists('PDO')) {
  					$return = 'PDOHandler';
- 				}
- 				elseif(class_exists('mysqli')) {
- 					$return = 'MySQLiHandler';
- 				}
- 				elseif(function_exists('mysql_connect')) {
- 					$return = 'MySQLHandler';
  				}
  				break;
 
@@ -212,9 +203,19 @@
  		}
  	}
 
- 	public function exception($message) {
+ 	protected function errorHandler($errno, $errstr, $errfile, $errline, array $errcontext) {
+ 		if (0 === error_reporting()) {
+    	    return false;
+    	}
+    	return $this->exception($errstr , true);
+ 	}
+
+ 	public function exception($message, $kill = false) {
  		$this->addDebugMessage($message);
 		return "AnyAPI Error: " . $message;
+		if($kill) {
+			exit("AnyAPI Error: " . $message);
+		}
  	}
 
  	/**
@@ -304,9 +305,14 @@
  		if(!function_exists('base64_decode')) {
  			throw new Exception("AnyAPI Error: AnyAPI Requires base64_encode() and base64_decode() functions.", 1);
  		} else {
- 			if(base64_decode($string,true)) {
- 				return true;
- 			} else {
+ 			try {
+ 				if(base64_decode($string,true)) {
+ 					return true;
+ 				} else {
+ 					return false;
+ 				}
+ 			}
+ 			catch (Exception $e) {
  				return false;
  			}
  		}
@@ -347,17 +353,31 @@
  	 * Helper Functions
  	 */
  	protected function arraytoxml($xmlObj,$data) {
- 		foreach ($data as $key => $value) {
- 			if(is_array($value)) {
- 				if(is_numeric($key)) {
- 					$key = 'item_' . $key;
- 				}
- 				$subnode = $xmlObj->addChild("$key");
- 				$this->arraytoxml($subnode,$value);
- 			} else {
- 				$xmlObj->addChild("$key","$value");
- 			}
+ 		if($this->is_assoc($array)) {
+ 			foreach ($data as $key => $value) {
+	 			if(is_array($value)) {
+	 				if(is_numeric($key)) {
+	 					$key = 'item_' . $key;
+	 				}
+	 				$subnode = $xmlObj->addChild("$key");
+	 				$this->arraytoxml($subnode,$value);
+	 			} else {
+	 				$xmlObj->addChild("$key","$value");
+	 			}
+	 		}
+ 		} else {
+ 			$key = 0;
+ 			foreach ($data as $value) {
+	 			if(is_array($value)) {
+	 				$subnode = $xmlObj->addChild('item_' . "$key");
+	 				$this->arraytoxml($subnode,$value);
+	 			} else {
+	 				$xmlObj->addChild("$key","$value");
+	 			}
+	 			$key ++;
+	 		}
  		}
+ 		
  		return $xmlObj;
  	}
 
@@ -383,6 +403,10 @@
 		}
 		return $return;
  	}
+
+ 	protected function is_assoc($array) {
+		return (bool)count(array_filter(array_keys($array), 'is_string'));
+	}
 
  } // End of anyapiCore Class
 ?>

@@ -38,7 +38,7 @@ abstract class anyapiParsers extends anyapiHandlers {
 
 	protected function xmlParser($data,$dataType) {
 		$this->addDebugMessage('Running XML Parser.');
-		if($dataType == 'xml') {
+		if(self::checkIfXML($data)) {
 			$xml = new SimpleXMLElement($data);
 			return $this->xml2array($xml);
 		} else {
