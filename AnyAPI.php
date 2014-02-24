@@ -107,6 +107,9 @@
  	// Return the Results of the Query
  	function results( $returnType = 'array', $parseAs = NULL) {
  		$this->addDebugMessage('Retrieve Request Initiated.');
+ 		if(is_null($this->resultsRaw) || strlen($this->resultsRaw) == 0) {
+ 			return $this->exception('No Data to Return');
+ 		}
  		if(!is_null($parseAs)) {
  			if(!self::canParseFormat($parseAs)) {
  				return $this->exception('Cannot Parse Returned Data as ' . $parseAs);
@@ -116,6 +119,9 @@
  		}
  		if(!self::canParseFormat($returnType)) {
  			return $this->exception('Cannot Return Data as ' . $returnType);
+ 		}
+ 		elseif( $returnType == 'raw') {
+ 			return $this->resultsRaw;
  		}
  		$parsedData = $this->runParser($parseAs,$this->resultsRaw);
  		return $this->runParser($returnType,$parsedData);

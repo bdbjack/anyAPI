@@ -46,6 +46,30 @@ abstract class anyapiHandlers extends anyapiCore {
 
 			case 'POST':
 				$this->addDebugMessage('POST Query detected. Running Specific Validation Rules.');
+				$filename = $this->options['url'];
+				if($this->queryDataType !== NULL) {
+					$this->addDebugMessage('Query Data Exists - Running Appropriate Parser');
+					$parsedData = $this->runParser($this->queryDataType);
+					$this->addDebugMessage('Adding Parsed Data to Query');
+					$parsedData = $this->runParser($this->queryDataType);
+				}
+				$postdata = http_build_query($parsedData);
+				$use_include_path = FALSE;
+				$opts = array('http' =>
+				    array(
+				        'method'  => 'POST',
+				        'header'  => 'Content-type: application/x-www-form-urlencoded',
+				        'content' => $postdata
+				    )
+				);
+				$context  = stream_context_create($opts);
+				$this->addDebugMessage('Running Query');
+				$results = file_get_contents($filename , $use_include_path , $context );
+				$this->addDebugMessage('Detecting Return Data Type');
+				$this->resultType = self::dataType($results);
+				$this->addDebugMessage('Return Data Type detected as ' . $this->resultType);
+				$this->addDebugMessage('Storing Results');
+				$this->resultsRaw = $results;
 				break;
 			
 			default:

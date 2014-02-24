@@ -121,6 +121,10 @@
 
  	public static function canParseFormat($type) {
  		switch ($type) {
+			case 'raw':
+ 				return true;
+ 				break;
+
  			case 'string':
  				return true;
  				break;
@@ -325,12 +329,16 @@
  		if(!function_exists('parse_url')) {
  			throw new Exception("AnyAPI Error: AnyAPI Requires parse_url() function.", 1);
  		} else {
- 			$parse = parse_url($string);
- 			if(is_array($parse)) {
- 				return true;
- 			}
- 			else {
+ 			if(is_array($string)) {
  				return false;
+ 			} else {
+ 				$parse = parse_url($string);
+	 			if(is_array($parse)) {
+	 				return true;
+	 			}
+	 			else {
+	 				return false;
+	 			}
  			}
  		}
  	}
@@ -351,6 +359,23 @@
  			}
  		}
  		return $xmlObj;
+ 	}
+
+ 	protected function arraytourl($data, $isSub = false) {
+ 		$return = '';
+		foreach ($data as $key => $value) {
+			if($isSub) {
+				$return .= "[" . urlencode($key) . "]";
+			} else {
+				$return .= "&" . $key;
+			}
+			if(is_array($value)) {
+				$return .= $this->arraytourl($value,true);
+			} else {
+				$return .= "=" . urlencode($value);
+			}
+		}
+		return $return;
  	}
 
  } // End of anyapiCore Class
