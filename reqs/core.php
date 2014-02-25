@@ -353,31 +353,17 @@
  	 * Helper Functions
  	 */
  	protected function arraytoxml($xmlObj,$data) {
- 		if($this->is_assoc($array)) {
- 			foreach ($data as $key => $value) {
-	 			if(is_array($value)) {
-	 				if(is_numeric($key)) {
-	 					$key = 'item_' . $key;
-	 				}
-	 				$subnode = $xmlObj->addChild("$key");
-	 				$this->arraytoxml($subnode,$value);
-	 			} else {
-	 				$xmlObj->addChild("$key","$value");
+ 		foreach ($data as $key => $value) {
+	 		if(is_array($value)) {
+	 			if(is_numeric($key)) {
+	 				$key = 'item_' . $key;
 	 			}
+	 			$subnode = $xmlObj->addChild("$key");
+	 			$this->arraytoxml($subnode,$value);
+	 		} else {
+	 			$xmlObj->addChild("$key","$value");
 	 		}
- 		} else {
- 			$key = 0;
- 			foreach ($data as $value) {
-	 			if(is_array($value)) {
-	 				$subnode = $xmlObj->addChild('item_' . "$key");
-	 				$this->arraytoxml($subnode,$value);
-	 			} else {
-	 				$xmlObj->addChild("$key","$value");
-	 			}
-	 			$key ++;
-	 		}
- 		}
- 		
+	 	}
  		return $xmlObj;
  	}
 
