@@ -5,9 +5,9 @@
  * A framework for interaction with external data-sources.
  */
 
- require_once('./reqs/core.php');
- require_once('./reqs/handlers.php');
- require_once('./reqs/parsers.php');
+ require_once( __DIR__ . '/reqs/core.php');
+ require_once( __DIR__ . '/reqs/handlers.php');
+ require_once( __DIR__ . '/reqs/parsers.php');
 
  class anyapi extends anyapiParsers {
  	/**

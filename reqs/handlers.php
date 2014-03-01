@@ -79,6 +79,57 @@ abstract class anyapiHandlers extends anyapiCore {
 	}
 
 	/**
+	 * cURL Handler
+	 */
+	protected function curlHandler() {
+		$this->addDebugMessage('file_get_contents handler activated. Running validation.');
+		$this->addDebugMessage('Checking that URL is set.');
+		if(!isset($this->options['url']) || $this->options['url'] === NULL || strlen($this->options['url']) === 0) {
+			return $this->exception('URL not found.');
+		}
+		if($this->queryDataType !== NULL) {
+			$query = '';
+			$this->addDebugMessage('Query Data Exists - Running Appropriate Parser');
+			$parsedData = $this->runParser($this->queryDataType);
+			$this->addDebugMessage('Adding Parsed Data to Query');
+			foreach ($parsedData as $key => $value) {
+				$query .= "&$key=$value";
+			}
+			$this->addDebugMessage('Parsed Data Added');
+		}
+		$this->addDebugMessage('Initializing cURL');
+		try {
+			 $ch = curl_init();
+			 if($this->queryType == 'POST') {
+             	curl_setopt($ch, CURLOPT_URL, $this->options['url']);
+             } else {
+             	curl_setopt($ch, CURLOPT_URL, $this->options['url'] . '?' . $query);
+             }
+             curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+             curl_setopt($ch, CURLOPT_TIMEOUT, $this->queryOptions['queryTimeout']);
+             if($this->queryType == 'POST') {
+             	curl_setopt($ch, CURLOPT_POST, 1);
+             	curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+             }
+             $this->addDebugMessage('Retrieving Data');
+             $result = curl_exec($ch);
+             $error = curl_error($ch);
+             if($error) {
+             	return $this->exception($error);
+             }
+             $this->addDebugMessage('Detecting Return Data Type');
+			 $this->resultType = self::dataType($result);
+			 $this->addDebugMessage('Return Data Type detected as ' . $this->resultType);
+			 $this->addDebugMessage('Storing Results');
+			 $this->resultsRaw = $result;
+		}
+		catch (Exception $e) {
+			return $this->exception($e->getMessage());
+		}
+	}
+
+	/**
 	 * PDO Handler
 	 */
 	protected function PDOHandler() {
