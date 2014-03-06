@@ -177,5 +177,32 @@ abstract class anyapiHandlers extends anyapiCore {
 		$this->resultsRaw = $results;
 	}
 
+	/**
+	 * jsonRPC Handler
+	 */
+	protected function jsonRPCHandler() {
+		$this->addDebugMessage('jsonRPC handler activated. Running validation.');
+		$req_keys = array(
+			'url',
+			'function',
+		);
+		foreach ($req_keys as $key) {
+			if(!isset($this->options[$key]) || is_null($this->options[$key]) || strlen($this->options[$key]) == 0) {
+				return $this->exception('Required Option ' . $key . ' is missing or not formatted correctly');
+			}
+		}
+		$this->addDebugMessage('Creating jsonRPC Object');
+		$client = new jsonRPCClient($this->options['url']);
+		$this->addDebugMessage('Setting up the function');
+		$function = $this->options['function'];
+		$this->addDebugMessage('Function set as ' . $function . '(). Running Function.');
+		$this->addDebugMessage('Returning Data');
+		$results = $client->$function($this->queryData[0],$this->queryData[1]);
+		$this->addDebugMessage('Setting Data Type');
+		$this->resultType = self::dataType($results);
+		$this->addDebugMessage('Posting Data to Object Variable');
+		$this->resultsRaw = $results;
+	}
+
 } // end of anyapiHandlers class
 ?>

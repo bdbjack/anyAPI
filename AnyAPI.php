@@ -8,6 +8,7 @@
  require_once( __DIR__ . '/reqs/core.php');
  require_once( __DIR__ . '/reqs/handlers.php');
  require_once( __DIR__ . '/reqs/parsers.php');
+ require_once( __DIR__ . '/reqs/jsonrpc.php');
 
  class anyapi extends anyapiParsers {
  	/**

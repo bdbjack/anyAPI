@@ -37,6 +37,7 @@
  				'GET' => self::canRunQueryType('GET'),
  				'POST' => self::canRunQueryType('POST'),
  				'MySQL' => self::canRunQueryType('MySQL'),
+ 				'jsonRPC' => self::canRunQueryType('jsonRPC'),
  				'SocketIO' => self::canRunQueryType('SocketIO'),
  			),
  		);
@@ -95,6 +96,12 @@
  			case 'MySQL':
  				if(class_exists('PDO')) {
  					$return = 'PDOHandler';
+ 				}
+ 				break;
+
+ 			case 'jsonRPC':
+ 				if(class_exists('jsonRPCClient') && extension_loaded('curl') && extension_loaded('json')) {
+ 					$return = 'jsonRPCHandler';
  				}
  				break;
 
