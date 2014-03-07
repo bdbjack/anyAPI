@@ -210,7 +210,7 @@
  		}
  	}
 
- 	protected function errorHandler($errno, $errstr, $errfile, $errline, array $errcontext) {
+ 	public function errorHandler($errno, $errstr, $errfile, $errline, array $errcontext) {
  		if (0 === error_reporting()) {
     	    return false;
     	}
